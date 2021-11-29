@@ -1,7 +1,7 @@
 ---
-title: "HW 02 - Road traffic accidents"
-author: "Insert your name here"
-date: "Insert date here"
+title: "Домашнее задание 03 - Дорожные происшествия"
+author: "Введите здесь Ваше имя"
+date: "Введите здесь дату"
 output: github_document
 ---
 
@@ -46,7 +46,7 @@ library(dsbox)
 
 Воссоздайте следующий график, опишите его в контексте данных. 
 
-knitr::include_graphics("accidents-task.png")
+![](accidents-task.png)
 
 Не забудьте переименовать фрагмент кода (там, где сейчас указано `label-me-1`). Имя должно быть коротким, информативным и не должно содержать пробелов, а также не должно повторять имя предыдущего фрагмента.
 
