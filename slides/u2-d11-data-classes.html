@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Классы данных</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="datasciencebox.org" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link rel="stylesheet" href="../xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="../slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Классы данных
+## <br><br> Data Science in a Box
+### <a href="https://datasciencebox.org/">datasciencebox.org</a>
+
+---
+
+
+
+
+
+layout: true
+  
+&lt;div class="my-footer"&gt;
+&lt;span&gt;
+&lt;a href="https://datasciencebox.org" target="_blank"&gt;datasciencebox.org&lt;/a&gt;
+&lt;/span&gt;
+&lt;/div&gt; 
+
+---
+
+
+
+class: middle
+
+# Классы данных
+
+---
+
+## Классы данных
+
+Концепция *класса* данных отличается от концепции *типа* данных (числовые, логические, текстовые и т.п.)
+
+- Вектора напоминают строительные блоки Лего
+
+--
+- Мы можем соединить их вместе в более сложные конструкции
+
+--
+- Атрибут **class** относится к системе классов S3 и определяет поведение объекта
+  - Вам не надо беспокоиться относительно того, как на самом деле устроены эти классы S3, но Вы можете почитать об этой системе [здесь](https://adv-r.hadley.nz/s3.html#s3-classes), если действительно интересно
+
+--
+- Примеры: факторы, даты и фреймы
+  
+---
+
+## Факторы
+
+R использует факторы для работы с категориальными переменными, которые могут принимать зафиксированное и изместное множество значений
+
+
+```r
+x &lt;- factor(c("BS", "MS", "PhD", "MS"))
+x
+```
+
+```
+## [1] BS  MS  PhD MS 
+## Levels: BS MS PhD
+```
+
+--
+
+.pull-left[
+
+```r
+typeof(x)
+```
+
+```
+## [1] "integer"
+```
+]
+.pull-right[
+
+```r
+class(x)
+```
+
+```
+## [1] "factor"
+```
+]
+
+
+---
+
+## Еще о факторах
+
+Можно думать о факторах как о текстовом (значения уровней) и целочисленном (номера уровней) векторах, соединенных вместе
+
+
+```r
+glimpse(x)
+```
+
+```
+##  Factor w/ 3 levels "BS","MS","PhD": 1 2 3 2
+```
+
+```r
+as.integer(x)
+```
+
+```
+## [1] 1 2 3 2
+```
+
+---
+
+## Даты
+
+
+```r
+y &lt;- as.Date("2020-01-01")
+y
+```
+
+```
+## [1] "2020-01-01"
+```
+
+```r
+typeof(y)
+```
+
+```
+## [1] "double"
+```
+
+```r
+class(y)
+```
+
+```
+## [1] "Date"
+```
+
+---
+
+## Еще о датах
+
+Можно думать о датах как о числовом векторе (число дней с начала времен, то есть 1 января 1970 года) и о числовом значении (дата начала времен), соединенных вместе
+
+
+```r
+as.integer(y)
+```
+
+```
+## [1] 18262
+```
+
+```r
+as.integer(y) / 365 # примерно 50 лет
+```
+
+```
+## [1] 50.03288
+```
+
+---
+
+## Фреймы
+
+Можно думать о фреймах как о веторах одинаковой длины, содеиненных вместе
+
+
+```r
+df &lt;- data.frame(x = 1:2, y = 3:4)
+df
+```
+
+```
+##   x y
+## 1 1 3
+## 2 2 4
+```
+
+.pull-left[
+
+```r
+typeof(df)
+```
+
+```
+## [1] "list"
+```
+]
+.pull-right[
+
+```r
+class(df)
+```
+
+```
+## [1] "data.frame"
+```
+]
+
+---
+
+## Списки
+
+Списки - это нативный контейнер векторного типа, который может содержать значения любого типа
+
+
+```r
+l &lt;- list(
+  x = 1:4,
+  y = c("hi", "hello", "jello"),
+  z = c(TRUE, FALSE)
+)
+l
+```
+
+```
+## $x
+## [1] 1 2 3 4
+## 
+## $y
+## [1] "hi"    "hello" "jello"
+## 
+## $z
+## [1]  TRUE FALSE
+```
+
+---
+
+## Списки и фреймы
+
+- Фрейм - это особый тип списка, содержащий векторы одинаковой длины
+- Если применить функцию `pull()`, можно изъять конкретный вектор из фрейма
+
+
+```r
+df
+```
+
+```
+##   x y
+## 1 1 3
+## 2 2 4
+```
+
+```r
+df %&gt;%
+  pull(y)
+```
+
+```
+## [1] 3 4
+```
+
+
+---
+
+class: middle
+
+# Работа с факторами
+
+---
+
+
+
+## Читаем данные как текстовые строки
+
+
+```r
+glimpse(cat_lovers)
+```
+
+```
+## Rows: 60
+## Columns: 3
+## $ name           &lt;chr&gt; "Bernice Warren", "Woodrow Stone", "Will~
+## $ number_of_cats &lt;chr&gt; "0", "0", "1", "3", "3", "2", "1", "1", ~
+## $ handedness     &lt;chr&gt; "left", "left", "left", "left", "left", ~
+```
+
+---
+
+## Но осуществляет приведение типа при визиализации
+
+
+```r
+ggplot(cat_lovers, mapping = aes(x = handedness)) +
+  geom_bar()
+```
+
+&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-21-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Используем forcats для манипулирования фактором
+
+
+```r
+cat_lovers %&gt;%
+* mutate(handedness = fct_infreq(handedness)) %&gt;%
+  ggplot(mapping = aes(x = handedness)) +
+  geom_bar()
+```
+
+&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-22-1.png" width="55%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Созданы для функциональности
+
+.pull-left[
+... остаются ради логотипа
+]
+.pull-right[
+&lt;img src="img/forcats-part-of-tidyverse.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-left-wide[
+- Факторы полезны, когда у Вас есть категориальная переменная И Вам нужно контролировать порядок значений для улучшения отображения
+- Они также полезны при моделировании
+- Пакет **forcats** предоставляет набор полезных инструментов для решения типичных проблем при работе с факторами
+]
+
+---
+
+.small[
+.your-turn[
+### .hand[Ваша очередь!]
+
+- Открывайте `hotels-forcats.Rmd` &gt; knit
+- Пересоздайте ось x на следующем графике. 
+- **Для продвинутых:** Пересоздайте еще и ось y.
+]
+]
+
+&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: middle
+
+# Работа с данными
+
+---
+
+## Создаем дату
+
+.pull-left[
+&lt;img src="img/lubridate-not-part-of-tidyverse.png" width="65%" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+- **lubridate** - это совместимый с tidyverse пакет, облегчающий работу с датами
+- Он не входит в число *центральных* пакетов tidyverse, он устанавливается через `install.packages("tidyverse)`, но он не загружается вмести с ним, поэтому требуется загрузка в явном виде через `library(lubridate)`
+]
+
+---
+
+class: middle
+
+.hand[.light-blue[
+сейчас мы собираемся только коснуться вершины айсберга работы с данными в R 
+]]
+
+---
+
+.question[
+Рассчитаем и визуализируем число бронирований за конкретную дату.
+]
+
+
+```r
+hotels %&gt;%
+  select(starts_with("arrival_"))
+```
+
+```
+## # A tibble: 119,390 x 4
+##   arrival_date_year arrival_date_month arrival_date_week_number
+##               &lt;dbl&gt; &lt;chr&gt;                                 &lt;dbl&gt;
+## 1              2015 July                                     27
+## 2              2015 July                                     27
+## 3              2015 July                                     27
+## 4              2015 July                                     27
+## 5              2015 July                                     27
+## 6              2015 July                                     27
+## # ... with 119,384 more rows, and 1 more variable:
+## #   arrival_date_day_of_month &lt;dbl&gt;
+```
+
+---
+
+## Шаг 1. Сформируем даты
+
+.midi[
+
+```r
+library(glue)
+```
+
+```
+## Warning: пакет 'glue' был собран под R версии 4.1.2
+```
+
+```r
+hotels %&gt;%
+  mutate(
+*   arrival_date = glue("{arrival_date_year} {arrival_date_month} {arrival_date_day_of_month}")
+    ) %&gt;% 
+  relocate(arrival_date)
+```
+
+```
+## # A tibble: 119,390 x 33
+##   arrival_date hotel       is_canceled lead_time arrival_date_ye~
+##   &lt;glue&gt;       &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
+## 1 2015 July 1  Resort Hot~           0       342             2015
+## 2 2015 July 1  Resort Hot~           0       737             2015
+## 3 2015 July 1  Resort Hot~           0         7             2015
+## 4 2015 July 1  Resort Hot~           0        13             2015
+...
+```
+]
+
+---
+
+## Шаг 2. Посчитаем число бронирований на каждую дату
+
+.midi[
+
+```r
+hotels %&gt;%
+  mutate(arrival_date = glue("{arrival_date_year} {arrival_date_month} {arrival_date_day_of_month}")) %&gt;%
+  count(arrival_date)
+```
+
+```
+## # A tibble: 793 x 2
+##   arrival_date       n
+##   &lt;glue&gt;         &lt;int&gt;
+## 1 2015 August 1    110
+## 2 2015 August 10   207
+## 3 2015 August 11   117
+## 4 2015 August 12   133
+## 5 2015 August 13   107
+## 6 2015 August 14   329
+## # ... with 787 more rows
+```
+]
+
+---
+
+## Шаг 3. Визуализируем бронирования на каждую дату
+
+.midi[
+
+```r
+hotels %&gt;%
+  mutate(arrival_date = glue("{arrival_date_year} {arrival_date_month} {arrival_date_day_of_month}")) %&gt;%
+  count(arrival_date) %&gt;%
+  ggplot(aes(x = arrival_date, y = n, group = 1)) +
+  geom_line()
+```
+
+&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-29-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+.hand[немного приблизим...]
+
+.question[
+ПОчему график начинается с августа, хотя мы знаем, что данные начинаются с июля? И почему 10 августа идет после 1 агуста?
+]
+
+.midi[
+&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-30-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## Шаг 1. *ПЕРЕСМОТРЕНО* Сформируем даты "как даты"
+
+.midi[
+
+```r
+library(lubridate)
+```
+
+```
+## Warning: пакет 'lubridate' был собран под R версии 4.1.1
+```
+
+```r
+hotels %&gt;%
+  mutate(
+*   arrival_date = ymd(glue("{arrival_date_year} {arrival_date_month} {arrival_date_day_of_month}"))
+    ) %&gt;% 
+  relocate(arrival_date)
+```
+
+```
+## # A tibble: 119,390 x 33
+##   arrival_date hotel       is_canceled lead_time arrival_date_ye~
+##   &lt;date&gt;       &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
+## 1 2015-07-01   Resort Hot~           0       342             2015
+## 2 2015-07-01   Resort Hot~           0       737             2015
+## 3 2015-07-01   Resort Hot~           0         7             2015
+## 4 2015-07-01   Resort Hot~           0        13             2015
+...
+```
+]
+
+---
+
+## Шаг 2. Посчитаем число бронирований на каждую дату
+
+.midi[
+
+```r
+hotels %&gt;%
+  mutate(arrival_date = ymd(glue("{arrival_date_year} {arrival_date_month} {arrival_date_day_of_month}"))) %&gt;% 
+  count(arrival_date)
+```
+
+```
+## # A tibble: 793 x 2
+##   arrival_date     n
+##   &lt;date&gt;       &lt;int&gt;
+## 1 2015-07-01     122
+## 2 2015-07-02      93
+## 3 2015-07-03      56
+## 4 2015-07-04      88
+## 5 2015-07-05      53
+## 6 2015-07-06      75
+## # ... with 787 more rows
+```
+]
+
+---
+
+## Шаг 3a. Визуализируем бронирования на каждую дату
+
+.midi[
+
+```r
+hotels %&gt;%
+  mutate(arrival_date = ymd(glue("{arrival_date_year} {arrival_date_month} {arrival_date_day_of_month}"))) %&gt;% 
+  count(arrival_date) %&gt;%
+  ggplot(aes(x = arrival_date, y = n, group = 1)) +
+  geom_line()
+```
+
+&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-33-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## Step 3b. Визуализируем с использованием сглаживающей кривой
+
+.midi[
+
+```r
+hotels %&gt;%
+  mutate(arrival_date = ymd(glue("{arrival_date_year} {arrival_date_month} {arrival_date_day_of_month}"))) %&gt;% 
+  count(arrival_date) %&gt;%
+  ggplot(aes(x = arrival_date, y = n, group = 1)) +
+* geom_smooth()
+```
+
+&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-34-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightLines": true,
+"highlightStyle": "solarized-light",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
