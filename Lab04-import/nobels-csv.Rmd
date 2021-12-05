@@ -1,0 +1,33 @@
+---
+title: "Обладатели нобелевской премии"
+author: "Mine Çetinkaya-Rundel"
+output: github_document
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+```
+
+В первую очередь загрузим данные:
+
+```{r label-me1, eval=FALSE}
+nobel <- ___(___)
+```
+
+Затем, разделим данные на две части:
+
+```{r label-me2, eval=FALSE}
+# stem laureates
+___ <- nobel %>%
+  filter(___)
+
+# non-steam laureates
+___ <- nobel %>%
+  filter(___)
+```
+
+И, наконец, запишем данные:
+
+```{r label-me3}
+# добавьте код для записи двух фреймов в файлы
+```
