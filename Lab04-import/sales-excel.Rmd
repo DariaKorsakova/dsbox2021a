@@ -1,0 +1,30 @@
+---
+title: "Продажи"
+author: "Mine Çetinkaya-Rundel"
+output: github_document
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+-   Прочитайте данные из файла Excel `sales.xlsx`, который находится в папке `data-raw/`, чтобы результат выглядел следующим образом.
+
+```{r echo=FALSE, out.width="20%"}
+knitr::include_graphics("images/sales-1.png")
+```
+
+```{r}
+
+```
+
+-   **Для продвинутых:** Преобразуйте данные о продажах так, чтобы они выглядели следующим образом.
+
+```{r echo=FALSE, out.width="25%"}
+knitr::include_graphics("images/sales-2.png")
+```
+
+```{r}
+
+```
