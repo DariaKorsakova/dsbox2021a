@@ -64,7 +64,7 @@ class: middle
 
 ## Факторы
 
-R использует факторы для работы с категориальными переменными, которые могут принимать зафиксированное и изместное множество значений
+R использует факторы для работы с категориальными переменными, которые могут принимать зафиксированное и известное множество значений
 
 
 ```r
@@ -158,7 +158,7 @@ class(y)
 
 ## Еще о датах
 
-Можно думать о датах как о числовом векторе (число дней с начала времен, то есть 1 января 1970 года) и о числовом значении (дата начала времен), соединенных вместе
+Можно думать о датах как о числовом векторе (число дней с начала времен, то есть с 1 января 1970 года) и о числовом значении (дата начала времен), соединенных вместе
 
 
 ```r
@@ -181,7 +181,7 @@ as.integer(y) / 365 # примерно 50 лет
 
 ## Фреймы
 
-Можно думать о фреймах как о веторах одинаковой длины, содеиненных вместе
+Можно думать о фреймах как о векторах одинаковой длины, соединенных вместе
 
 
 ```r
@@ -281,7 +281,7 @@ class: middle
 
 
 
-## Читаем данные как текстовые строки
+## Данные читаются как текстовые строки
 
 
 ```r
@@ -298,7 +298,7 @@ glimpse(cat_lovers)
 
 ---
 
-## Но осуществляет приведение типа при визиализации
+## Но преобразуются в фактор при визуализации
 
 
 ```r
@@ -306,11 +306,11 @@ ggplot(cat_lovers, mapping = aes(x = handedness)) +
   geom_bar()
 ```
 
-&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-21-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-15-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-## Используем forcats для манипулирования фактором
+## Используем `forcats` для манипулирования фактором
 
 
 ```r
@@ -320,7 +320,7 @@ cat_lovers %&gt;%
   geom_bar()
 ```
 
-&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-22-1.png" width="55%" style="display: block; margin: auto;" /&gt;
+&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-16-1.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -334,7 +334,7 @@ cat_lovers %&gt;%
 ]
 
 .pull-left-wide[
-- Факторы полезны, когда у Вас есть категориальная переменная И Вам нужно контролировать порядок значений для улучшения отображения
+- Факторы полезны, когда у Вас есть категориальная переменная и Вам нужно контролировать порядок значений для улучшения отображения
 - Они также полезны при моделировании
 - Пакет **forcats** предоставляет набор полезных инструментов для решения типичных проблем при работе с факторами
 ]
@@ -351,13 +351,13 @@ cat_lovers %&gt;%
 ]
 ]
 
-&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 class: middle
 
-# Работа с данными
+# Работа с датами
 
 ---
 
@@ -376,7 +376,7 @@ class: middle
 class: middle
 
 .hand[.light-blue[
-сейчас мы собираемся только коснуться вершины айсберга работы с данными в R 
+сейчас мы собираемся только коснуться вершины айсберга работы с датами в R 
 ]]
 
 ---
@@ -479,7 +479,7 @@ hotels %&gt;%
   geom_line()
 ```
 
-&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-29-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-23-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -487,11 +487,11 @@ hotels %&gt;%
 .hand[немного приблизим...]
 
 .question[
-ПОчему график начинается с августа, хотя мы знаем, что данные начинаются с июля? И почему 10 августа идет после 1 агуста?
+Почему график начинается с августа, хотя мы знаем, что данные начинаются с июля? И почему 10 августа идет после 1 агуста?
 ]
 
 .midi[
-&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-30-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-24-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -568,7 +568,7 @@ hotels %&gt;%
   geom_line()
 ```
 
-&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-33-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-27-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -585,7 +585,7 @@ hotels %&gt;%
 * geom_smooth()
 ```
 
-&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-34-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="u2-d11-data-classes_files/figure-html/unnamed-chunk-28-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
