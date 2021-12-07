@@ -148,14 +148,14 @@ read_csv("data/df.csv")
 
 - RStudio &gt; открываем `nobels-csv.Rmd` и собираем.
 - Прочитайте файл `nobels.csv` из папки `data-raw/`.
-- разделите на два (STEM и не-STEM): 
+- Разделите данные на два (STEM и не-STEM) фрейма: 
   - Создайте новый фрейм `nobel_stem`, в который выбраны области STEM 
 (Physics, Medicine, Chemistry, and Economics).
   - Создайте новый фрейм `nobel_nonstem`, в который выбраны все остальные области.  
-- Write out the two data frames to `nobel-stem.csv` and `nobel-nonstem.csv`, 
-respectively, to `data/`.
+- Сохраните два фрейма в файлы `nobel-stem.csv` и `nobel-nonstem.csv`, 
+соответственно, в папку `data/`.
 
-**Подсказка:** Используйте оператор `%in%` когда фильтруете через `filter()`.
+**Подсказка:** Используйте оператор `%in%`, когда фильтруете через `filter()`.
 ]
 
 ---
@@ -349,7 +349,7 @@ read_csv("data/df-na.csv", col_types = list(col_double(),
 ## Типы столбцов
 
 .small[
-**type function**  | **data type**
+**функция типа**  | **тип данных**
 ------------------ | -------------
 `col_character()`  | character
 `col_date()`       | date
@@ -364,44 +364,6 @@ read_csv("data/df-na.csv", col_types = list(col_double(),
 `col_skip()`       | do not read
 `col_time()`       | time
 ]
-
----
-
-.question[
-Хотите знать, откуда вы это помните?
-]
-
-
-```r
-read_csv("data/df-na.csv")
-```
-
-```
-## Rows: 9 Columns: 3
-```
-
-```
-## -- Column specification -----------------------------------------
-## Delimiter: ","
-## chr (3): x, y, z
-```
-
-```
-## 
-## i Use `spec()` to retrieve the full column specification for this data.
-## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
-
-```
-## # A tibble: 9 x 3
-##   x     y              z     
-##   &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt; 
-## 1 1     a              hi    
-## 2 &lt;NA&gt;  b              hello 
-## 3 3     Not applicable 9999  
-## 4 4     d              ola   
-...
-```
 
 ---
 
